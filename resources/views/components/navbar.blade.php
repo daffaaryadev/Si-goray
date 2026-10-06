@@ -11,12 +11,29 @@
         </button>
 
         <!-- BLOK 2: TENGAH (Menu Navigasi) -->
-        <div class="navbar-menu" id="nav-menu">
-            <a href="/" class="nav-link active">Beranda</a>
-            <a href="/events" class="nav-link">Event</a>
-            <a href="/about" class="nav-link">Tentang Kami</a>
-            <a href="/contact" class="nav-link">Kontak Kami</a>
-        </div>
+    
+<!-- BLOK 2: TENGAH (Menu Navigasi) -->
+<div class="navbar-menu" id="nav-menu">
+    <a href="/"
+       class="nav-link {{ request()->is('/') ? 'active' : '' }}">
+        Beranda
+    </a>
+
+    <a href="/events"
+       class="nav-link {{ request()->is('events*') ? 'active' : '' }}">
+        Event
+    </a>
+
+    <a href="/about"
+       class="nav-link {{ request()->is('about*') ? 'active' : '' }}">
+        Tentang Kami
+    </a>
+
+    <a href="/contact"
+       class="nav-link {{ request()->is('contact*') ? 'active' : '' }}">
+        Kontak Kami
+    </a>
+</div>
 
         <!-- BLOK 3: KANAN (Daftar & Login) -->
         <div class="navbar-auth"id="nav-auth">

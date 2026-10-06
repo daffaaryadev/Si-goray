@@ -2,7 +2,7 @@
 
 @section('content')
 
-    @include('components.navbar')
+@include('components.navbar')
 
 <section class="hero-section">
     <div class="hero-container">
@@ -10,10 +10,10 @@
         <div class="hero-content">
             <h1>Beli Ticket Event Jadi Lebih Mudah & Praktis di GOR A.Yani Kota Mojokerto</h1>
             <p>Temukan berbagai event olahraga, seni, dan budaya. serta reservasi GOR cepat dan aman</p>
-            
+
             <div class="hero-buttons">
-                <a href="#cari-event" class="btn btn-primary">Cari Event Sekarang</a>
-                <a href="#activity" class="btn btn-outline">Activity Reguler</a>
+                <a href="/events" class="btn btn-primary">Cari Event Sekarang</a>
+                <a href="#activity" class="btn btn-outline" id="btn-activity">Activity Reguler</a>
             </div>
         </div>
 
@@ -44,89 +44,98 @@
 
         <!-- Daftar Event -->
         @php
-            $events = [
-                [
-                    'title' => 'Futsal',
-                    'description' => 'Pertandingan Antar Sekolah',
-                    'category' => 'Sport',
-                    'image' => 'images/events/futsal.jpg',
-                    'remaining' => 24,
-                    'total' => 200,
-                    'price' => 'Gratis',
-                ],
-                [
-                    'title' => 'Futsal',
-                    'description' => 'Pertandingan Antar Sekolah',
-                    'category' => 'Sport',
-                    'image' => 'images/events/futsal.jpg',
-                    'remaining' => 24,
-                    'total' => 200,
-                    'price' => 'Gratis',
-                ],
-                [
-                    'title' => 'Futsal',
-                    'description' => 'Pertandingan Antar Sekolah',
-                    'category' => 'Sport',
-                    'image' => 'images/events/futsal.jpg',
-                    'remaining' => 24,
-                    'total' => 200,
-                    'price' => 'Gratis',
-                ],
-            ];
+        $events = [
+        [
+        'title' => 'Futsal',
+        'description' => 'Pertandingan Antar Sekolah',
+        'category' => 'Sport',
+        'image' => 'images/events/futsal.jpg',
+        'remaining' => 24,
+        'total' => 200,
+        'price' => 'Gratis',
+        ],
+        [
+        'title' => 'Futsal',
+        'description' => 'Pertandingan Antar Sekolah',
+        'category' => 'Sport',
+        'image' => 'images/events/futsal.jpg',
+        'remaining' => 24,
+        'total' => 200,
+        'price' => 'Gratis',
+        ],
+        [
+        'title' => 'Futsal',
+        'description' => 'Pertandingan Antar Sekolah',
+        'category' => 'Sport',
+        'image' => 'images/events/futsal.jpg',
+        'remaining' => 24,
+        'total' => 200,
+        'price' => 'Gratis',
+        ],
+        ];
         @endphp
 
         <div class="event-grid">
             @foreach ($events as $event)
-                <div class="event-card">
+            <div class="event-card">
 
-                    <!-- Gambar Event -->
-                    <div class="event-image">
-                        <img src="{{ asset($event['image']) }}"
-                             alt="{{ $event['title'] }}">
+                <!-- Gambar Event -->
+                <div class="event-image">
+                    <img src="{{ asset($event['image']) }}"
+                        alt="{{ $event['title'] }}">
 
-                        <span class="event-category">
-                            {{ $event['category'] }}
+                    <span class="event-category">
+                        {{ $event['category'] }}
+                    </span>
+                </div>
+
+                <!-- Informasi Event -->
+                <div class="event-info">
+                    <h3>{{ $event['title'] }}</h3>
+                    <p class="event-description">
+                        {{ $event['description'] }}
+                    </p>
+
+                    <!-- Kuota Tiket -->
+                    <div class="event-quota">
+                        <span class="quota-icon">▣</span>
+                        <span>
+                            Kuota Event: Sisa {{ $event['remaining'] }}
+                            dari {{ $event['total'] }} Ticket
                         </span>
                     </div>
 
-                    <!-- Informasi Event -->
-                    <div class="event-info">
-                        <h3>{{ $event['title'] }}</h3>
-                        <p class="event-description">
-                            {{ $event['description'] }}
-                        </p>
+                    @php
+                    $total = (int) $event['total'];
+                    $remaining = (int) $event['remaining'];
 
-                        <!-- Kuota Tiket -->
-                        <div class="event-quota">
-                            <span class="quota-icon">▣</span>
-                            <span>
-                                Kuota Event: Sisa {{ $event['remaining'] }}
-                                dari {{ $event['total'] }} Ticket
-                            </span>
-                        </div>
+                    $percentage = 0;
 
-                        <div class="quota-progress">
-                            <div class="quota-progress-bar"
-                                 style="width: {{ (($event['total'] - $event['remaining']) / $event['total']) * 100 }}%">
-                            </div>
-                        </div>
+                    if ($total > 0) {
+                    $percentage = (($total - $remaining) / $total) * 100;
+                    }
+                    @endphp
 
-                        <!-- Harga -->
-                        <div class="event-price">
-                            <h3>{{ $event['price'] }}</h3>
-                            <span>S&K</span>
-                        </div>
+                    <div class="quota-progress">
+                        <div class="quota-progress-bar" style="width: {{ $percentage }}%;"></div>
                     </div>
 
-                    <!-- Tombol Pesan -->
-                    <div class="event-action">
-                        <a href="#" class="book-ticket">
-                            <span class="ticket-icon">🎟</span>
-                            Pesan Tiket
-                        </a>
+                    <!-- Harga -->
+                    <div class="event-price">
+                        <h3>{{ $event['price'] }}</h3>
+                        <span>S&K</span>
                     </div>
-
                 </div>
+
+                <!-- Tombol Pesan -->
+                <div class="event-action">
+                    <a href="#" class="book-ticket">
+                        <span class="ticket-icon">🎟</span>
+                        Pesan Tiket
+                    </a>
+                </div>
+
+            </div>
             @endforeach
         </div>
 
@@ -148,18 +157,18 @@
     </div>
 </section>
 
-<!-- SEKSYEN PENGAKI (FOOTER) -->
+<!-- (FOOTER) -->
 <footer class="footer-section">
     <div class="footer-container">
         <!-- Kolum 1: Logo & Info -->
         <div class="footer-col">
             <img src="{{ asset('storage/images/Logo-Si-goray.png') }}" alt="SI-GORAY Logo" class="footer-logo">
-            <p class="footer-text" >Sistem Informasi E-Ticket<br>GOR A.Yani</p>
+            <p class="footer-text">Sistem Informasi E-Ticket<br>GOR A.Yani</p>
             <div class="social-icons">
                 <!-- Menggunakan Google Icons sebagai pengganti sementara ikon media sosial -->
-                <span class="material-symbols-outlined">camera_alt</span> 
-                <span class="material-symbols-outlined">close</span> 
-                <span class="material-symbols-outlined">music_note</span> 
+                <span class="material-symbols-outlined">camera_alt</span>
+                <span class="material-symbols-outlined">close</span>
+                <span class="material-symbols-outlined">music_note</span>
             </div>
         </div>
 
@@ -185,10 +194,54 @@
             <img src="{{ asset('storage/images/peta-mojokerto.png') }}" alt="Peta Lokasi" class="map-image">
         </div>
     </div>
-    
+
     <div class="footer-bottom">
         <p>Copyright sigoray.go.id 2026</p>
     </div>
 </footer>
+
+<!-- ========================================== -->
+<!-- KODE POP-UP MODAL (Letakkan di bawah section) -->
+<!-- ========================================== -->
+<div class="modal-overlay" id="modal-nik">
+    <div class="modal-box">
+        <h3>Aktivasi NIK</h3>
+        <p>Apakah Anda Termasuk NIK Warga Kota Mojokerto?</p>
+
+        <div class="modal-buttons">
+            <button class="btn-yes" id="btn-yes">Iya</button>
+            <button class="btn-no" id="btn-no">Tidak</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const btnActivity = document.getElementById('btn-activity');
+        const modalNik = document.getElementById('modal-nik');
+        const btnYes = document.getElementById('btn-yes');
+        const btnNo = document.getElementById('btn-no');
+
+        // Membuka Pop-up saat tombol diklik
+        if (btnActivity) {
+            btnActivity.addEventListener('click', function(event) {
+                event.preventDefault(); // Mencegah halaman melompat ke atas
+                modalNik.classList.add('show');
+            });
+        }
+
+        // Fungsi untuk menutup Pop-up
+        function closeModal() {
+            modalNik.classList.remove('show');
+
+            // Opsional: Anda bisa menambahkan logika lanjutan di sini nanti, 
+            // misalnya mengarahkan pengguna (redirect) jika mereka klik "Iya"
+        }
+
+        // Menutup pop-up ketika tombol Iya atau Tidak ditekan
+        if (btnYes) btnYes.addEventListener('click', closeModal);
+        if (btnNo) btnNo.addEventListener('click', closeModal);
+    });
+</script>
 
 @endsection
